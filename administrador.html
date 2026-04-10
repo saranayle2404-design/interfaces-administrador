@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Perfil Administrador Eventos</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:url("FONDO.AVIF") no-repeat center center/cover;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.container{
+    width:450px;
+    background:rgba(0,0,0,0.85);
+    border:6px solid #7a0018;
+    box-shadow:0 0 40px #7a0018;
+    border-radius:20px;
+    padding:30px;
+}
+
+.profile{
+    text-align:center;
+    position:relative;
+}
+
+.profile img{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    border:4px solid #7a0018;
+    object-fit:cover;
+}
+
+.edit{
+    position:absolute;
+    right:120px;
+    top:40px;
+    background:#7a0018;
+    padding:6px;
+    border-radius:50%;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.edit:hover{
+    transform:scale(1.2);
+    box-shadow:0 0 15px #a00022;
+}
+
+.options{
+    display:none;
+    margin-top:15px;
+}
+
+.options img{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    margin:5px;
+    cursor:pointer;
+    border:2px solid white;
+    object-fit:cover;
+    transition:0.3s;
+}
+
+.options img:hover{
+    transform:scale(1.2);
+    box-shadow:0 0 15px #a00022;
+}
+
+.tab{
+    background: linear-gradient(45deg, #7a0018, #a00022);
+    padding:14px;
+    margin-top:15px;
+    cursor:pointer;
+    border-radius:12px;
+    font-weight:bold;
+    text-align:center;
+    color:white;
+    letter-spacing:1px;
+    transition:0.3s;
+    box-shadow:0 0 10px #7a0018;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.tab:hover{
+    transform:scale(1.07);
+    box-shadow:0 0 25px #ff0033;
+    background: linear-gradient(45deg, #a00022, #ff0033);
+}
+.content{
+    display:none;
+    background:white;
+    color:black;
+    padding:15px;
+    border-radius:10px;
+    margin-top:8px;
+}
+.inventario-img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #7a0018;
+    transition:0.3s;
+}
+
+.inventario-img:hover{
+    transform:scale(1.3);
+    box-shadow:0 0 20px #a00022;
+}
+button{
+    background:black;
+    color:white;
+    border:2px solid #7a0018;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    box-shadow:0 0 10px #7a0018;
+    transition:0.3s;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#7a0018;
+    box-shadow:0 0 20px #ff0033;
+    transform:scale(1.05);
+}
+input{
+    width:90%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
+    border:2px solid #7a0018;
+    background:black;
+    color:white;
+    outline:none;
+    transition:0.3s;
+    text-align:center;
+}
+
+input::placeholder{
+    color:#aaa;
+}
+
+input:focus{
+    border:2px solid #ff0033;
+    box-shadow:0 0 10px #ff0033;
+}
+</style>
+</head>
+
+<body>
+    
+
+<!-- LOGIN -->
+<div id="login" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url('FONDO.AVIF') no-repeat center center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:1000;
+">
+
+<div style="
+background:rgba(0,0,0,0.75);
+backdrop-filter: blur(10px);
+border:5px solid #7a0018;
+box-shadow:0 0 40px #7a0018;
+padding:30px;
+border-radius:20px;
+text-align:center;
+color:white;
+width:320px;
+">
+
+<h2>Iniciar Sesión</h2>
+
+<input type="text" id="user" placeholder="Usuario"><br><br>
+<input type="password" id="pass" placeholder="Contraseña"><br><br>
+
+<button onclick="login()">Entrar</button>
+
+</div>
+</div>
+<!-- FIN LOGIN -->
+
+<div class="container">
+
+<h3 id="bienvenida" style="
+text-align:center;
+margin-bottom:15px;
+font-size:18px;
+color:white;
+">
+<h3 id="bienvenido"></h3>
+
+<div class="profile">
+
+<img id="mainPhoto" src="PERFIL 1.jpg">
+
+<div class="edit" onclick="showOptions()">✏️</div>
+
+<h2>HORIZON JVS</h2>
+<p>Cédula: 12345678</p>
+
+<div class="options" id="photoOptions">
+
+<img src="PERFIL 1.jpg" onclick="changePhoto(this.src)">
+<img src="PERFIL 2.jpg" onclick="changePhoto(this.src)">
+<img src="PERFIL 3.jpg" onclick="changePhoto(this.src)">
+<img src="perfil tres.webp" onclick="changePhoto(this.src)">
+
+</div>
+
+</div>
+
+<div class="tab" onclick="abrirCoord()">Coordinador de Eventos</div>
+
+<div id="coord" class="content" style="
+    background:black;
+    border:4px solid #7a0018;
+    box-shadow:0 0 20px #7a0018;
+    color:white;
+">
+
+    <div style="text-align:center; padding:20px;">
+
+        <img src="PERFIL 2.jpg" style="
+            width:110px;
+            height:110px;
+            border-radius:50%;
+            border:4px solid #7a0018;
+            object-fit:cover;
+        ">
+
+        <h3 style="margin-top:15px;">Coordinador de Eventos</h3>
+
+        <p><b>Email:</b> coordijvs@gmail.com</p>
+        <p><b>Teléfono:</b> 3214586545</p>
+        <p><b>Usuario:</b> coordinador1</p>
+        <p><b>Contraseña:</b> ***********</p>
+
+    </div>
+
+</div>
+
+<div class="tab" onclick="abrirVend()">Vendedor</div>
+<div id="ventanaVend" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+">
+
+    <div style="
+    background:black;
+    border:5px solid #7a0018;
+    box-shadow:0 0 40px #7a0018;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    width:350px;
+    ">
+
+        <img src="PERFIL 3.jpg" style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        border:4px solid #7a0018;
+        object-fit:cover;
+        ">
+
+        <h2>Vendedor</h2>
+
+        <p><b>Usuario:</b> user01</p>
+        <p><b>Contraseña:</b> *********</p>
+
+        <button onclick="verSalario()" style="
+        margin-top:10px;
+        padding:10px 20px;
+        background:black;
+        border:2px solid #7a0018;
+        color:white;
+        border-radius:10px;
+        cursor:pointer;
+        box-shadow:0 0 10px #7a0018;
+        ">Ver salario</button>
+
+        <br><br>
+
+        <button onclick="verInventarioVend()" style="
+        padding:10px 20px;
+        background:black;
+        border:2px solid #7a0018;
+        color:white;
+        border-radius:10px;
+        cursor:pointer;
+        box-shadow:0 0 10px #7a0018;
+        ">Ver inventario</button>
+
+        <br><br>
+
+        <button onclick="cerrarVend()" style="
+        padding:10px 20px;
+        background:#7a0018;
+        border:none;
+        color:white;
+        border-radius:10px;
+        cursor:pointer;
+        ">Cerrar</button>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+const productos = [
+{ nombre: "Aguardiente Amarillo", cantidad: 10, precio: 25000, img: "aguardiente.JPG" },
+{ nombre: "Cerveza Águila", cantidad: 20, precio: 4000, img: "aguila.WEBP" },
+{ nombre: "Cerveza Corona", cantidad: 15, precio: 6000, img: "corona.WEBP" },
+{ nombre: "Whisky", cantidad: 8, precio: 80000, img: "whisky.WEBP" }
+];
+
+function renderInventario(){
+let contenedor = document.getElementById("listaInventario");
+contenedor.innerHTML = "";
+
+productos.forEach((p, i) => {
+contenedor.innerHTML += `
+<div style="
+border:2px solid #7a0018;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<div>
+<b>${p.nombre}</b><br><br>
+
+Cantidad: ${p.cantidad}
+
+<div style="margin-top:5px;">
+<button onclick="sumar(${i})">+</button>
+<button onclick="restar(${i})">-</button>
+<button onclick="eliminarProducto(${i})" style="
+background:#7a0018;
+color:white;
+border:none;
+padding:5px 10px;
+border-radius:5px;
+cursor:pointer;
+">Eliminar</button>
+</div>
+
+Precio: $${p.precio}
+</div>
+
+<img src="${p.img}" class="inventario-img">
+
+</div>
+`;
+});
+}
+
+function sumar(i){
+productos[i].cantidad++;
+renderInventario();
+}
+
+function restar(i){
+if(productos[i].cantidad > 0){
+productos[i].cantidad--;
+renderInventario();
+}
+}
+
+function cerrarInventario(){
+document.getElementById("inventarioVend").style.display = "none";
+}
+    function showOptions(){
+let opt = document.getElementById("photoOptions");
+opt.style.display = opt.style.display === "block" ? "none" : "block";
+}
+
+function changePhoto(src){
+document.getElementById("mainPhoto").src = src;
+}
+
+function abrirCoord(){
+document.getElementById("ventanaCoord").style.display="flex";
+}
+
+function cerrarCoord(){
+document.getElementById("ventanaCoord").style.display="none";
+}
+
+
+
+/* AQUI PEGAS LO NUEVO */
+
+function abrirVend(){
+document.getElementById("ventanaVend").style.display="flex";
+}
+
+function cerrarVend(){
+document.getElementById("ventanaVend").style.display="none";
+}
+
+function verSalario(){
+document.getElementById("ventanaSalario").style.display = "flex";
+}
+
+function verInventarioVend(){
+document.getElementById("inventarioVend").style.display = "flex";
+renderInventario();
+}
+
+function guardarCambios(){
+alert("Cambios guardados correctamente");
+}
+
+function agregarProducto(){
+let nombre = prompt("Nombre del producto:");
+let cantidad = prompt("Cantidad:");
+let precio = prompt("Precio:");
+
+if(nombre && cantidad && precio){
+productos.push({
+nombre: nombre,
+cantidad: parseInt(cantidad),
+precio: parseInt(precio),
+img: "default.jpg"
+});
+
+renderInventario();
+}
+}
+function eliminarProducto(i){
+if(confirm("¿Seguro que quieres eliminar este producto?")){
+productos.splice(i, 1);
+renderInventario();
+}
+}
+function verProveedores(){
+alert("Aquí se mostrarán los proveedores");
+}
+function verInventario(){
+    window.location.href = "raider.html";
+}
+function cerrarSalario(){
+document.getElementById("ventanaSalario").style.display = "none";
+}
+function login(){
+    let usuario = document.getElementById("user").value;
+    let contraseña = document.getElementById("pass").value;
+
+    if(usuario === "admin" && contraseña === "1234"){
+        document.getElementById("login").style.display = "none";
+        document.getElementById("bienvenida").innerText = "Hola Admin, bienvenido";
+    } else {
+        alert("Datos incorrectos");
+    }
+}
+</script>
+<div id="ventanaCoord" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+">
+
+    <div style="
+    background:black;
+    border:5px solid #7a0018;
+    box-shadow:0 0 40px #7a0018;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    width:350px;
+    ">
+
+        <img src="PERFIL 2.jpg" style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        border:4px solid #7a0018;
+        object-fit:cover;
+        ">
+
+        <h2>Coordinador de Eventos</h2>
+
+        <p><b>Email:</b> coordijvs@gmail.com</p>
+        <p><b>Teléfono:</b> 3214586545</p>
+        <p><b>Usuario:</b> coordinador1</p>
+        <p><b>Contraseña:</b> ***********</p>
+
+        <button onclick="cerrarCoord()" style="
+margin-top:15px;
+padding:10px 20px;
+background:#7a0018;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+">Cerrar</button>
+
+<br><br>
+
+<button onclick="verInventario()" style="
+padding:10px 20px;
+background:black;
+border:2px solid #7a0018;
+color:white;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 10px #7a0018;
+">
+Raider Técnico / Agencia de Booking
+</button>
+
+<br><br>
+
+<button onclick="verProveedores()" style="
+padding:10px 20px;
+background:black;
+border:2px solid #7a0018;
+color:white;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 10px #7a0018;
+">
+Ver proveedores
+</button>
+
+    </div>
+    </div>
+
+<div id="inventarioVend" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+">
+
+<div style="
+background:black;
+border:5px solid #7a0018;
+box-shadow:0 0 40px #7a0018;
+padding:25px;
+border-radius:20px;
+color:white;
+width:380px;
+max-height:80%;
+overflow-y:auto;
+">
+
+<h2 style="text-align:center;">Inventario</h2>
+
+<div id="listaInventario"></div>
+
+<br>
+
+<button onclick="cerrarInventario()" style="
+width:100%;
+padding:10px;
+background:#7a0018;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+">Cerrar</button>
+
+<br><br>
+
+<button onclick="guardarCambios()" style="
+width:100%;
+padding:10px;
+background:black;
+border:2px solid #7a0018;
+color:white;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 10px #7a0018;
+">
+Guardar cambios
+</button>
+
+<br><br>
+
+<button onclick="agregarProducto()" style="
+width:100%;
+padding:10px;
+background:black;
+border:2px solid #7a0018;
+color:white;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 10px #7a0018;
+">
+Agregar producto
+
+</button>
+</div>
+</div>
+
+<div id="ventanaSalario" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+">
+
+
+<div style="
+background:black;
+border:5px solid #7a0018;
+box-shadow:0 0 40px #7a0018;
+padding:25px;
+border-radius:20px;
+color:white;
+width:400px;
+max-height:80%;
+overflow-y:auto;
+">
+
+<h2 style="text-align:center;">Salario Vendedores</h2>
+
+<p><b>Vendedor 1:</b> $2.000.000</p>
+<p><b>Vendedor 2:</b> $2.000.000</p>
+<p><b>Vendedor 3:</b> $2.000.000</p>
+<p><b>Vendedor 4:</b> $2.000.000</p>
+<p><b>Vendedor 5:</b> $2.000.000</p>
+<p><b>Vendedor 6:</b> $2.000.000</p>
+<p><b>Vendedor 7:</b> $2.000.000</p>
+<p><b>Vendedor 8:</b> $2.000.000</p>
+<p><b>Vendedor 9:</b> $2.000.000</p>
+<p><b>Vendedor 10:</b>$2.000.000</p>
+
+<br>
+
+<button onclick="cerrarSalario()" style="
+width:100%;
+padding:10px;
+background:#7a0018;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+">
+Cerrar
+</button>
+
+</div>
+
+</body>
+</html>
